@@ -23,3 +23,10 @@ You can run the scripts with
 ```
 uv run <scriptname>
 ```
+
+### Benchmark timings
+See the `notebooks/benchmark.ipynb` for the code. I ran these on a 16 core/64 GB server on the VEDA JupyterHub. I did not randomize the points, but instead aimed that every point is on a different spatial chunk. This should be the worst case scenario, and more regional cases should run faster than these times.
+
+- Single point: *79.79 seconds*
+- 5 points: *192.18 seconds*
+- 10 points: *327.11 seconds*
