@@ -1,0 +1,19 @@
+[project]
+name = "nldas-icechunk"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fsspec>=2025.7.0",
+    "h5netcdf>=1.6.4",
+    "icechunk>=1.1.1",
+    "lithops>=3.6.1",
+    "s3fs>=2025.7.0",
+    "virtualizarr>=2.0.1",
+]
+
+[dependency-groups]
+dev = [
+    "pre-commit>=4.2.0",
+]
