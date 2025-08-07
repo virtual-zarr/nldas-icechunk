@@ -11,7 +11,7 @@ import icechunk
 data_dir = "s3://nasa-waterinsight/NLDAS3/forcing/daily/"
 # change these as needed.
 store_bucket = "nasa-veda-scratch"
-store_prefix = "jbusecke/NLDAS3/"
+store_prefix = "jbusecke/NLDAS3-test2/"
 
 # Use fsspec to list files in the S3 bucket
 fs = fsspec.filesystem("s3", anon=True)
@@ -42,14 +42,14 @@ storage = icechunk.s3_storage(
 config = icechunk.RepositoryConfig.default()
 config.set_virtual_chunk_container(
     icechunk.VirtualChunkContainer(
-        "s3://nasa-waterinsight/NLDAS3/forcing/daily/202201/",
+        "s3://nasa-waterinsight/NLDAS3/forcing/daily/",
         icechunk.s3_store(region="us-west-2"),
     )
 )
 
 virtual_credentials = icechunk.containers_credentials(
     {
-        "s3://nasa-waterinsight/NLDAS3/forcing/daily/202201/": icechunk.s3_anonymous_credentials()
+        "s3://nasa-waterinsight/NLDAS3/forcing/daily/": icechunk.s3_anonymous_credentials()
     }
 )
 
