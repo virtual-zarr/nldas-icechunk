@@ -12,10 +12,10 @@ To reproduce results in the notebooks, you need to build a custom kernel with
 ```
 uv sync
 uv run bash
-python -m ipykernel install --user --name=lndasenv --display-name="LNDAS-VENV"
+python -m ipykernel install --user --name=nldasenv --display-name="NLDAS-VENV"
 ```
 
-Then select the "LNDAS-VENV" kernel on the upper right corner drop-down in your notebook (you might have to refresh the browser to see it). 
+Then select the "NLDAS-VENV" kernel on the upper right corner drop-down in your notebook (you might have to refresh the browser to see it). 
 
 ### Running scripts
 
