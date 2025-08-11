@@ -1,4 +1,4 @@
-# LNDAS-icechunk
+# NLDAS-icechunk
 
 ## Dependency management
 
