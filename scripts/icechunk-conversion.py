@@ -11,7 +11,45 @@ import icechunk
 data_dir = "s3://nasa-waterinsight/NLDAS3/forcing/daily/"
 # change these as needed.
 store_bucket = "nasa-veda-scratch"
-store_prefix = "jbusecke/NLDAS3-test2/"
+store_prefix = "jbusecke/NLDAS3-test/"
+
+
+# custom logic to aggregate metadata for concat of timesteps
+def combine_attrs(dicts, context):
+    combined_attrs = {}
+
+    # Get keys from first dict as reference
+    all_keys = set(dicts[0].keys())
+
+    # Check that every key exists in all dicts
+    for i, d in enumerate(dicts[1:], 1):
+        if set(d.keys()) != all_keys:
+            missing = all_keys - set(d.keys())
+            extra = set(d.keys()) - all_keys
+            raise KeyError(f"Dict {i} key mismatch. Missing: {missing}, Extra: {extra}")
+
+    for key in all_keys:
+        values = [d[key] for d in dicts]
+        unique_values = set(values)
+
+        if len(unique_values) == 1:
+            # All values are the same
+            combined_attrs[key] = values[0]
+        else:
+            if key == "vmin":
+                combined_attrs[key] = min(values)
+            elif key == "vmax":
+                combined_attrs[key] = max(values)
+            elif key == "begin_date":
+                combined_attrs[key] = min(values)
+            elif key == "end_date":
+                combined_attrs[key] = max(values)
+            elif key == "history":
+                combined_attrs[key] = "||".join(values)
+            else:
+                raise ValueError(f"No instructions provided how to handle {key=}")
+    return combined_attrs
+
 
 # Use fsspec to list files in the S3 bucket
 fs = fsspec.filesystem("s3", anon=True)
@@ -27,7 +65,13 @@ registry = ObjectStoreRegistry({bucket: store})
 parser = HDFParser()
 
 urls = ["s3://" + file for file in files]
-vds = open_virtual_mfdataset(urls, parser=parser, registry=registry, parallel="lithops")
+vds = open_virtual_mfdataset(
+    urls,
+    parser=parser,
+    registry=registry,
+    parallel="lithops",
+    combine_attrs=combine_attrs,
+)
 
 print(f"Virtual Dataset: {vds}")
 
