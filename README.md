@@ -1,4 +1,38 @@
-# LNDAS-icechunk
+# NLDAS-icechunk
+
+## Deployed Dataset
+The NLDAS virtual icechunk store is available on `s3://nasa-waterinsight/virtual-zarr-store/NLDAS-3-icechunk/`
+`
+
+You can use the data as follows:
+
+## Usage Example
+```python
+import icechunk
+import xarray as xr
+
+storage = icechunk.s3_storage(
+    bucket='nasa-waterinsight',
+    prefix=f"virtual-zarr-store/NLDAS-3-icechunk",
+    anonymous=True,
+)
+
+chunk_url = "s3://nasa-waterinsight/NLDAS3/forcing/daily/"
+virtual_credentials = icechunk.containers_credentials({
+    chunk_url: icechunk.s3_anonymous_credentials()
+})
+
+repo = icechunk.Repository.open(
+    storage=storage,
+    authorize_virtual_chunk_access=virtual_credentials,
+)
+
+session = repo.readonly_session('main')
+ds = xr.open_zarr(session.store, consolidated=False, zarr_version=3, chunks={})
+ds
+```
+
+
 
 ## Dependency management
 
