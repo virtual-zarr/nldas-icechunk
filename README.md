@@ -14,6 +14,7 @@ import xarray as xr
 storage = icechunk.s3_storage(
     bucket='nasa-waterinsight',
     prefix=f"virtual-zarr-store/NLDAS-3-icechunk",
+    region="us-west-2",
     anonymous=True,
 )
 
