@@ -1,5 +1,8 @@
 # NLDAS-icechunk
 
+## Original Dataset
+https://ldas.gsfc.nasa.gov/nldas/v3
+
 ## Deployed Dataset
 The NLDAS virtual icechunk store is available on `s3://nasa-waterinsight/virtual-zarr-store/NLDAS-3-icechunk/`
 `
